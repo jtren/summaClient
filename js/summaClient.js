@@ -17,9 +17,15 @@ function summa(uri, topK, language, fixedProperty, id, service) {
 	//$("#" + id + "_loading").hide();
 	$("#" + id).hide();
 	$.ajaxSetup({
-		accepts: {"json" : "application/rdf+json, application/json, text/javascript" },
-		contents: {"rdf+json" :  "application/rdf+json" },
-		converters: {"rdf+json json" : jQuery.parseJSON}
+		accepts : {
+			"json" : "application/rdf+json, application/json, text/javascript"
+		},
+		contents : {
+			"rdf+json" : "application/rdf+json"
+		},
+		converters : {
+			"rdf+json json" : jQuery.parseJSON
+		}
 	});
 	var url = service + "?entity=" + uri + "&topK=" + topK + "&maxHops=1";
 
@@ -30,18 +36,17 @@ function summa(uri, topK, language, fixedProperty, id, service) {
 		url += "&fixedProperty=" + fixedProperty;
 	}
 	$.ajax({
-		dataType: "json",
-		url: url,
-        beforeSend: function() {
-		// show loading bar
-        	$("#" + id + "_loading").show();
-        },
-        complete: function() {
-		// remove loading bar
-        	$("#" + id + "_loading").remove();
-        },
-		success:
-		function (data) {
+		dataType : "json",
+		url : url,
+		beforeSend : function() {
+			// show loading bar
+			$("#" + id + "_loading").show();
+		},
+		complete : function() {
+			// remove loading bar
+			$("#" + id + "_loading").remove();
+		},
+		success : function(data) {
 			function label(uri) {
 				var part1 = data[uri];
 				if (part1 != null) {
@@ -50,29 +55,95 @@ function summa(uri, topK, language, fixedProperty, id, service) {
 					var strArry = uri.split("/");
 					return strArry[strArry.length - 1];
 				}
-			}		
-		
-			var print = {"entity" : "", "statements" : []}
-			
+			}
+
+			var print = {
+				"entity" : "",
+				"statements" : []
+			};
+
 			var keys = Object.keys(data);
-			
-			for (i = 0; i < keys.length; i++) {
+
+			for ( i = 0; i < keys.length; i++) {
 				var types = data[keys[i]]["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"];
 				if (types != null) {
 					if (types[0]["value"] == "http://purl.org/voc/summa/Summary") {
 						print["entity"] = data[keys[i]]["http://purl.org/voc/summa/entity"][0]["value"];
 					}
 					if (types[0]["value"] == "http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement") {
-						var statement = {"subject" : "", "predicate" : "", "object" : ""};
+						var statement = {
+							"subject" : "",
+							"predicate" : "",
+							"object" : ""
+						};
 						statement["subject"] = data[keys[i]]["http://www.w3.org/1999/02/22-rdf-syntax-ns#subject"][0]["value"];
 						statement["predicate"] = data[keys[i]]["http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate"][0]["value"];
 						statement["object"] = data[keys[i]]["http://www.w3.org/1999/02/22-rdf-syntax-ns#object"][0]["value"];
 						print.statements.push(statement);
 					}
 				}
-			}			
+			}
 			$("#" + id).append("<div style='float:right' id='" + id + "_close'>x</div><h2>" + label(print.entity) + "</h2><table></table>");
-			for (i = 0; i < print.statements.length; i++) {
+			//REN
+			var url2 = "http://km.aifb.kit.edu/services/duckbpedia?dbpedia=" + uri;
+			var statement2 = {
+				"img" : "",
+				"text" : ""
+			};
+			$.ajax({
+				dataType : "json",
+				url : url2,
+				success : function(data) {
+					var keys2 = Object.keys(data);
+					for ( i = 0; i < keys.length; i++) {
+						var types2 = data[keys2[i]];
+						if (types2 != null) {
+							if (keys2[i] == 'Image') {
+								console.log("checkpoint");
+								statement2["img"] = types2;
+							}
+							if (keys2[i] == 'Abstract') {
+								statement2["text"] = types2;
+							}
+						}
+					}
+					//if abstract longer than 80 characters, it is shortened to the next full-stop after 80 characters
+					//problem: why is text background grey?
+					//stupid toggle button
+					if (statement2["text"].length < 50) {
+						if (statement2["img"] == "") {//exception: no image
+							$("#" + id).children("table").prepend("<tr><td>" + statement2["text"] + "</td><td>" + "" + "</td>");
+						} else {
+							$("#" + id).children("table").prepend("<tr><td>" + statement2["text"] + "</td><td>" + "<img src =" + statement2["img"] + ">" + "</td></tr>");
+						}
+					} else {
+						if (statement2["img"] == "") {//exception: no image
+							var shorttext = statement2["text"].substring(0, statement2["text"].indexOf(".", 49) + 1);
+							var resttext = statement2["text"].substring(statement2["text"].indexOf(".", 49) + 1 + " ", statement2["text"].length);
+							var tabletext = "<span class='short'>" + shorttext + "</span>" + "<span class='rest'>" + resttext + "</span>" + "<span class='more'>" + "(more...)" + "</span>";
+
+							$("#" + id).children("table").prepend("<tr><td>" + tabletext + "</td><td>" + "" + "</td>");
+							/*var clicked = false;
+							clicktoggle = function() {
+								if (clicked) {
+									clicked = false;
+									console.log("hi 1");
+								} else {
+									clicked = true;
+									console.log("hi 2");
+								}
+							};
+							$(".more").clicktoggle();*/
+
+						} else {
+							$("#" + id).children("table").prepend("<tr><td>" + statement2["text"] + "</td><td>" + "<img src =" + statement2["img"] + ">" + "</td></tr>");
+						}
+					}
+
+				}
+			});
+			//REN end
+			for ( i = 0; i < print.statements.length; i++) {
 				if (print.statements[i].subject == print.entity) {
 					$("#" + id).children("table").append("<tr><td>" + label(print.statements[i].predicate) + "&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\" id=\"" + print.statements[i].object + "\" href=\"#" + print.statements[i].object + "\">" + label(print.statements[i].object) + "</a></td></tr>");
 				} else if (print.statements[i].object == print.entity) {
@@ -93,18 +164,17 @@ function summa(uri, topK, language, fixedProperty, id, service) {
 	});
 }
 
-
-function qSUM(topK, lang, fixedproperty, service) {
+function qSum(topK, lang, fixedproperty, service) {
 	var clicked = false;
 	$("[its-ta-ident-ref]").mouseover(function() {
 		var letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
 		var identifier = letter + Date.now();
 		$("body").append("<div class='sum sum-popup' id='" + identifier + "'></div>");
 		$("#" + identifier).position({
-			my: "left top",
-			at: "right",
-			of:  $(this),
-			collision: "fit"
+			my : "left top",
+			at : "right",
+			of : $(this),
+			collision : "fit"
 		});
 		summa($(this).attr("its-ta-ident-ref"), topK, lang, fixedproperty, identifier, service);
 	});

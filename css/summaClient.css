@@ -1,1 +1,17 @@
-.sum { width:30%;border: 1px solid; padding: 5px 5px 5px 5px;background:white; }
+.sum {
+	width: 30%;
+	border: 1px solid;
+	padding: 5px 5px 5px 5px;
+	background: white;
+}
+
+//REN
+.rest {
+	display: none;
+}
+
+.more {
+	background: lightgrey;
+	color: black;
+	cursor: pointer;
+}
