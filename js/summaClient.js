@@ -84,6 +84,7 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                 }
             }
             $("#" + id).append("<div style='float:right' id='" + id + "_close'>x</div><h2>" + label(print.entity) + "</h2><table></table>");
+
             //REN
             var url2 = "http://km.aifb.kit.edu/services/duckbpedia?dbpedia=" + uri;
             var statement2 = {
@@ -107,23 +108,24 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                             }
                         }
                     }
-                    //if abstract longer than 100 characters, it is shortened to the next space after 80 characters
-                    //problem: why is text background grey?
-                    //stupid toggle button
+                    //if abstract longer than 100 characters, it is shortened to the next space after 100 characters
                     if (statement2["text"].length < 100) {
-                        if (statement2["img"] == "") { //exception: no image
-                            $("#" + id).children("table").prepend("<tr><td>" + statement2["text"] + "</td><td>" + "" + "</td>");
+                        if (statement2["img"] == "") {//exception: no image
+                            $("#" + id).children("table").prepend("<tr><td width='66%'>" + statement2["text"] + "</td><td>" + "" + "</td>");
                         } else {
-                            $("#" + id).children("table").prepend("<tr><td>" + statement2["text"] + "</td><td>" + "<img src =" + statement2["img"] + ">" + "</td></tr>");
+                            $("#" + id).children("table").prepend("<tr><td width='66%'>" + statement2["text"] + "</td>" 
+                            + "<td>" + "<img src =" + statement2["img"] + "width='100%'>" + "</td></tr>");
                         }
                     } else {
-                        
+
                         var shorttext = statement2["text"].substring(0, statement2["text"].indexOf(" ", 99) + 1);
                         var resttext = statement2["text"].substring(statement2["text"].indexOf(" ", 99) + 1 + " ", statement2["text"].length);
-                        var tabletext = "<span class='short'>" + shorttext + "</span>" + "<span class='rest'>" + resttext + "</span>" + " " + "<span class='more'>" + "(more...)" + "</span>";
-                        
-                        if (statement2["img"] == "") { //exception: no image                         
-                            $("#" + id).children("table").prepend("<tr><td>" + tabletext + "</td><td>" + "" + "</td>");
+                        var tabletext = "<span class='short' style='background-color: transparent;'>" + shorttext + "</span>" 
+                        + "<span class='rest' style='background-color: transparent;'>" + resttext + "</span>" + " " 
+                        + "<span class='more' style='background-color: transparent;'>" + "(more...)" + "</span>";
+
+                        if (statement2["img"] == "") {//exception: no image
+                            $("#" + id).children("table").prepend("<tr><td width='66%'>" + tabletext + "</td><td>" + "" + "</td>");
                             var clicked = false;
                             $(".rest").toggle();
                             $(".more").click(function() {
@@ -131,15 +133,15 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                                     clicked = false;
                                     $(".rest").toggle();
                                     $(".more").text("(more...)");
-                                } else { //default start
+                                } else {//default start
                                     clicked = true;
                                     $(".rest").toggle();
                                     $(".more").text("(less...)");
                                 }
-                            });                   
+                            });
                         } else {//with image longer than x characters
-                            //$("#" + id).children("table").prepend("<tr><td>" + statement2["text"] + "</td><td>" + "<img src =" + statement2["img"] + ">" + "</td></tr>");
-                            $("#" + id).children("table").prepend("<tr><td>" + tabletext + "</td><td>" + "<img src =" + statement2["img"] + ">" + "</td>");
+                            $("#" + id).children("table").prepend("<tr><td width='66%'>" + tabletext + "</td>" 
+                            + "<td>" + "<img src =" + statement2["img"] + " width='100%'>" + "</td>");
                             var clicked = false;
                             $(".rest").toggle();
                             $(".more").click(function() {
@@ -147,7 +149,7 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                                     clicked = false;
                                     $(".rest").toggle();
                                     $(".more").text("(more...)");
-                                } else { //default start
+                                } else {//default start
                                     clicked = true;
                                     $(".rest").toggle();
                                     $(".more").text("(less...)");

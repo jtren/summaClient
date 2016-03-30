@@ -1,13 +1,12 @@
 .sum {
-	width: 30%;
-	border: 1px solid;
-	padding: 5px 5px 5px 5px;
-	background: white;
+    width: 30%;
+    border: 1px solid;
+    padding: 5px 5px 5px 5px;
+    background: white;
 }
 
-//REN
 .more {
-	background: lightgrey;
-	color: black;
-	cursor: pointer;
+    font-weight: italic;
+    color: blue;
+    cursor: pointer;
 }
