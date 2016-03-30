@@ -1,0 +1,12 @@
+.sum {
+    width: 30%;
+    border: 1px solid;
+    padding: 5px 5px 5px 5px;
+    background: white;
+}
+
+.more {
+    font-weight: italic;
+    color: blue;
+    cursor: pointer;
+}
