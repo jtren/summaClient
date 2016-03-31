@@ -114,7 +114,7 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                             $("#" + id).children("table").prepend("<tr><td width='66%'>" + statement2["text"] + "</td><td>" + "" + "</td>");
                         } else {
                             $("#" + id).children("table").prepend("<tr><td width='66%'>" + statement2["text"] + "</td>" 
-                            + "<td>" + "<img src =" + statement2["img"] + "width='100%'>" + "</td></tr>");
+                            + "<td>" + "<img src ='" + statement2["img"] + "' width='100%'>" + "</td></tr>");
                         }
                     } else {
 
@@ -141,7 +141,7 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                             });
                         } else {//with image longer than x characters
                             $("#" + id).children("table").prepend("<tr><td width='66%'>" + tabletext + "</td>" 
-                            + "<td>" + "<img src =" + statement2["img"] + " width='100%'>" + "</td>");
+                            + "<td>" + "<img src ='" + statement2["img"] + "' width='100%'>" + "</td>");
                             var clicked = false;
                             $(".rest").toggle();
                             $(".more").click(function() {
