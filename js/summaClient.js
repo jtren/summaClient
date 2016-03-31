@@ -122,7 +122,7 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                         var resttext = statement2["text"].substring(statement2["text"].indexOf(" ", 99) + 1 + " ", statement2["text"].length);
                         var tabletext = "<span class='short' style='background-color: transparent;'>" + shorttext + "</span>" 
                         + "<span class='rest' style='background-color: transparent;'>" + resttext + "</span>" + " " 
-                        + "<a href=' ' class='more' style='background-color: transparent;'>" + "(more...)" + "</a>";
+                        + "<a href='#' class='more'>" + "(more...)" + "</a>";
 
                         if (statement2["img"] == "") {//exception: no image
                             $("#" + id).children("table").prepend("<tr><td width='66%'>" + tabletext + "</td><td>" + "" + "</td>");
