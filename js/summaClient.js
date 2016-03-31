@@ -84,7 +84,23 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                 }
             }
             $("#" + id).append("<div style='float:right' id='" + id + "_close'>x</div><h2>" + label(print.entity) + "</h2><table></table>");
-
+            for ( i = 0; i < print.statements.length; i++) {
+                if (print.statements[i].subject == print.entity) {
+                    $("#" + id).children("table").append("<tr><td>" + label(print.statements[i].predicate) + "&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\" id=\"" + print.statements[i].object + "\" href=\"#" + print.statements[i].object + "\">" + label(print.statements[i].object) + "</a></td></tr>");
+                } else if (print.statements[i].object == print.entity) {
+                    $("#" + id).children("table").append("<tr><td>" + label(print.statements[i].predicate) + " of&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\"id=\"" + print.statements[i].subject + "\" href=\"#" + print.statements[i].subject + "\">" + label(print.statements[i].subject) + "</a></td></tr>");
+                }
+            }
+            $("#" + id).append("<i style='font-size:10px'>_______<br>Summary by <a href='" + service.substring(0, service.lastIndexOf("/")) + "'>" + service.substring(0, service.lastIndexOf("/")) + "</a></i>");
+            $("#" + id).show();
+            $("#" + id + "_close").click(function() {
+                $("#" + id).remove();
+            });
+            $('.' + id + '.click').click(function() {
+                $("#" + id).empty();
+                $("#" + id).hide();
+                summa(this.id, topK, language, fixedProperty, id, service);
+            });
             //REN
             var url2 = "http://km.aifb.kit.edu/services/duckbpedia?dbpedia=" + uri;
             var statement2 = {
@@ -161,23 +177,6 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                 }
             });
             //REN end
-            for ( i = 0; i < print.statements.length; i++) {
-                if (print.statements[i].subject == print.entity) {
-                    $("#" + id).children("table").append("<tr><td>" + label(print.statements[i].predicate) + "&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\" id=\"" + print.statements[i].object + "\" href=\"#" + print.statements[i].object + "\">" + label(print.statements[i].object) + "</a></td></tr>");
-                } else if (print.statements[i].object == print.entity) {
-                    $("#" + id).children("table").append("<tr><td>" + label(print.statements[i].predicate) + " of&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\"id=\"" + print.statements[i].subject + "\" href=\"#" + print.statements[i].subject + "\">" + label(print.statements[i].subject) + "</a></td></tr>");
-                }
-            }
-            $("#" + id).append("<i style='font-size:10px'>_______<br>Summary by <a href='" + service.substring(0, service.lastIndexOf("/")) + "'>" + service.substring(0, service.lastIndexOf("/")) + "</a></i>");
-            $("#" + id).show();
-            $("#" + id + "_close").click(function() {
-                $("#" + id).remove();
-            });
-            $('.' + id + '.click').click(function() {
-                $("#" + id).empty();
-                $("#" + id).hide();
-                summa(this.id, topK, language, fixedProperty, id, service);
-            });
         }
     });
 }
