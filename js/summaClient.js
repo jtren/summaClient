@@ -111,7 +111,9 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                 dataType : "json",
                 url : url2,
                 success : function(data2) {
-                    var keys2 = Object.keys(data2);
+                    statement2["img"] = data2["Image"];
+                    statement2["text"] = data2["Abstract"];
+                    /*var keys2 = Object.keys(data2);
                     for ( i = 0; i < keys.length; i++) {
                         var types2 = data2[keys2[i]];
                         if (types2 != null) {
@@ -123,7 +125,7 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                                 statement2["text"] = types2;
                             }
                         }
-                    }
+                    }*/
                     //if abstract longer than 100 characters, it is shortened to the next space after 100 characters
                     if (statement2["text"].length < 100) {
                         if (statement2["img"] == "") {//exception: no image
