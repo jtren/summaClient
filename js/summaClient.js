@@ -105,7 +105,8 @@ function summa(uri, topK, language, fixedProperty, id, service) {
             var url2 = "http://km.aifb.kit.edu/services/duckbpedia?dbpedia=" + uri;
             var statement2 = {
                 "img" : "",
-                "text" : ""
+                "text" : "",
+                "heading" : ""
             };
             $.ajax({
                 dataType : "json",
@@ -113,6 +114,9 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                 success : function(data2) {
                     statement2["img"] = data2["Image"];
                     statement2["text"] = data2["Abstract"];
+                    statement2["heading"] = data2["Heading"];
+                    
+                    $("#" + id).children("h2").text(statement2["heading"]);
                     /*var keys2 = Object.keys(data2);
                     for ( i = 0; i < keys.length; i++) {
                         var types2 = data2[keys2[i]];
