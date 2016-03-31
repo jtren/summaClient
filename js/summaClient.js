@@ -110,8 +110,8 @@ function summa(uri, topK, language, fixedProperty, id, service) {
             $.ajax({
                 dataType : "json",
                 url : url2,
-                success : function(data) {
-                    var keys2 = Object.keys(data);
+                success : function(data2) {
+                    var keys2 = Object.keys(data2);
                     for ( i = 0; i < keys.length; i++) {
                         var types2 = data[keys2[i]];
                         if (types2 != null) {
