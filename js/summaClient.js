@@ -113,7 +113,7 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                 success : function(data2) {
                     var keys2 = Object.keys(data2);
                     for ( i = 0; i < keys.length; i++) {
-                        var types2 = data[keys2[i]];
+                        var types2 = data2[keys2[i]];
                         if (types2 != null) {
                             if (keys2[i] == 'Image') {
                                 console.log("checkpoint");
