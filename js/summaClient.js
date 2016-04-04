@@ -83,15 +83,20 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                     }
                 }
             }
-            $("#" + id).append("<div style='float:right' id='" + id + "_close'>x</div><h2>" + label(print.entity) + "</h2><table></table>");
+            $("#" + id).append("<div style='float:right' id='" + id + "_close'>x</div><h2>" + label(print.entity) + "</h2>"
+            + "<table class='abstract'></table><table class='points'></table>");
             for ( i = 0; i < print.statements.length; i++) {
                 if (print.statements[i].subject == print.entity) {
-                    $("#" + id).children("table").append("<tr><td>" + label(print.statements[i].predicate) + "&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\" id=\"" + print.statements[i].object + "\" href=\"#" + print.statements[i].object + "\">" + label(print.statements[i].object) + "</a></td></tr>");
+                    $("#" + id).children(".points").append("<tr><td>" + label(print.statements[i].predicate) + "&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\" id=\"" + print.statements[i].object + "\" href=\"#" + print.statements[i].object + "\">" + label(print.statements[i].object) + "</a></td></tr>");
                 } else if (print.statements[i].object == print.entity) {
-                    $("#" + id).children("table").append("<tr><td>" + label(print.statements[i].predicate) + " of&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\"id=\"" + print.statements[i].subject + "\" href=\"#" + print.statements[i].subject + "\">" + label(print.statements[i].subject) + "</a></td></tr>");
+                    $("#" + id).children(".points").append("<tr><td>" + label(print.statements[i].predicate) + " of&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\"id=\"" + print.statements[i].subject + "\" href=\"#" + print.statements[i].subject + "\">" + label(print.statements[i].subject) + "</a></td></tr>");
                 }
             }
-            $("#" + id).append("<i style='font-size:10px'>_______<br>Summary by <a href='" + service.substring(0, service.lastIndexOf("/")) + "'>" + service.substring(0, service.lastIndexOf("/")) + "</a></i>");
+            $("#" + id).append("<i style='font-size:10px'>_______<br>Summary by: <a href='" + service.substring(0, service.lastIndexOf("/")) + "'>" 
+            + service.substring(0, service.lastIndexOf("/")) + "</a>"
+            + "<br>Sources: <a href='http://dbpedia.org'>http://dbpedia.org</a>"
+            + ", <a href='http://wikipedia.org'>http://wikipedia.org</a>"
+            + ", <a href='http://duckduckgo.com/'>http://duckduckgo.com/</a></i>");
             $("#" + id).show();
             $("#" + id + "_close").click(function() {
                 $("#" + id).remove();
@@ -133,9 +138,9 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                     //if abstract longer than 100 characters, it is shortened to the next space after 100 characters
                     if (statement2["text"].length < 100) {
                         if (statement2["img"] == "") {//exception: no image
-                            $("#" + id).children("table").prepend("<tr><td width='66%'>" + statement2["text"] + "</td><td>" + "" + "</td>");
+                            $("#" + id).children(".abstract").prepend("<tr><td>" + statement2["text"] + "</td>");
                         } else {
-                            $("#" + id).children("table").prepend("<tr><td width='66%'>" + statement2["text"] + "</td>" 
+                            $("#" + id).children(".abstract").prepend("<tr><td width='66%'>" + statement2["text"] + "</td>" 
                             + "<td>" + "<img src ='" + statement2["img"] + "' width='100%'>" + "</td></tr>");
                         }
                     } else {
@@ -147,7 +152,7 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                         + "<a href='#' class='more'>" + "(more...)" + "</a>";
 
                         if (statement2["img"] == "") {//exception: no image
-                            $("#" + id).children("table").prepend("<tr><td width='66%'>" + tabletext + "</td><td>" + "" + "</td>");
+                            $("#" + id).children(".abstract").prepend("<tr><td>" + tabletext + "</td>");
                             var clicked = false;
                             $(".rest").toggle();
                             $(".more").click(function() {
@@ -162,7 +167,7 @@ function summa(uri, topK, language, fixedProperty, id, service) {
                                 }
                             });
                         } else {//with image longer than x characters
-                            $("#" + id).children("table").prepend("<tr><td width='66%'>" + tabletext + "</td>" 
+                            $("#" + id).children(".abstract").prepend("<tr><td width='66%'>" + tabletext + "</td>" 
                             + "<td>" + "<img src ='" + statement2["img"] + "' width='100%'>" + "</td>");
                             var clicked = false;
                             $(".rest").toggle();
