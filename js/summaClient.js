@@ -101,9 +101,9 @@ function summa(uri, topK, language, fixedProperty, id, service) {
 			//sort statements by rankValue
 			function compare(a, b) {
 				if (a["rankValue"] < b["rankValue"])
-					return -1;
-				else if (a["rankValue"] > b["rankValue"])
 					return 1;
+				else if (a["rankValue"] > b["rankValue"])
+					return -1;
 				else
 					return 0;
 			}
