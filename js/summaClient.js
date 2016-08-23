@@ -183,7 +183,7 @@ function summa(uri, topK, language, fixedProperty, id, service) {
 						$("#" + id).children("table").append("<tr><td>" + "<td><a class=\"" + id + " " + "click\" id=\"" + pred_list["predicates"][i]["obj"][m] + "\" href=\"#" + pred_list["predicates"][i]["obj"][m] + "\">" + label(pred_list["predicates"][i]["obj"][m]) + "</a></td></tr>");
 					}
 				} else if (pred_list["predicates"][i]["obj"][0] == print.entity) {
-					$("#" + id).children("table").append("<tr><td>" + label(pred_list["predicates"][i]["pred"]) + "&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\" id=\"" + pred_list["predicates"][i]["subj"][0] + "\" href=\"#" + pred_list["predicates"][i]["subj"][0] + "\">" + label(pred_list["predicates"][i]["subj"][0]) + "</a></td></tr>");
+					$("#" + id).children("table").append("<tr><td>" + label(pred_list["predicates"][i]["pred"]) + "&nbsp;of&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class=\"" + id + " " + "click\" id=\"" + pred_list["predicates"][i]["subj"][0] + "\" href=\"#" + pred_list["predicates"][i]["subj"][0] + "\">" + label(pred_list["predicates"][i]["subj"][0]) + "</a></td></tr>");
 					//for each row after the first: without first column;
 					for (m = 1; m < pred_list["predicates"][i]["subj"].length; m++) {
 						$("#" + id).children("table").append("<tr><td>" + "<td><a class=\"" + id + " " + "click\" id=\"" + pred_list["predicates"][i]["subj"][m] + "\" href=\"#" + pred_list["predicates"][i]["subj"][m] + "\">" + label(pred_list["predicates"][i]["subj"][m]) + "</a></td></tr>");
